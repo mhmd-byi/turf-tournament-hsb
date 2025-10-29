@@ -7,12 +7,21 @@ export async function POST(request: NextRequest) {
     await dbConnect();
     const body = await request.json();
 
-    const { teamName, players, paymentScreenshot } = body;
+    const { teamName, captainPhone, players, paymentScreenshot } = body;
 
     // Validation
-    if (!teamName || !players || players.length !== 8) {
+    if (!teamName || !captainPhone || !players || players.length !== 8) {
       return NextResponse.json(
         { success: false, error: 'Invalid team data' },
+        { status: 400 }
+      );
+    }
+
+    // Validate phone number
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(captainPhone)) {
+      return NextResponse.json(
+        { success: false, error: 'Invalid phone number. Must be 10 digits.' },
         { status: 400 }
       );
     }
@@ -34,6 +43,7 @@ export async function POST(request: NextRequest) {
 
     const team = await Team.create({
       teamName,
+      captainPhone,
       players,
       paymentScreenshot,
       verified: false,

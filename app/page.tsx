@@ -9,6 +9,7 @@ interface Player {
 
 export default function Home() {
   const [teamName, setTeamName] = useState('');
+  const [captainPhone, setCaptainPhone] = useState('');
   const [players, setPlayers] = useState<Player[]>(
     Array(8).fill(null).map(() => ({ name: '', isCaptain: false }))
   );
@@ -83,6 +84,18 @@ export default function Home() {
       return;
     }
 
+    if (!captainPhone.trim()) {
+      alert('Please enter captain phone number');
+      return;
+    }
+
+    // Validate phone number (10 digits)
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(captainPhone)) {
+      alert('Please enter a valid 10-digit phone number');
+      return;
+    }
+
     const filledPlayers = players.filter(p => p.name.trim());
     if (filledPlayers.length < 8) {
       alert('Please enter all 8 player names');
@@ -108,7 +121,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ teamName, players, paymentScreenshot }),
+        body: JSON.stringify({ teamName, captainPhone, players, paymentScreenshot }),
       });
 
       const data = await response.json();
@@ -119,6 +132,7 @@ export default function Home() {
         await checkRegistrationStatus();
         // Reset form
         setTeamName('');
+        setCaptainPhone('');
         setPlayers(Array(8).fill(null).map(() => ({ name: '', isCaptain: false })));
         setPaymentScreenshot('');
       } else {
@@ -217,42 +231,66 @@ export default function Home() {
               </h2>
               <div className="space-y-3">
                 {players.map((player, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-                  >
-                    <div className="flex items-center gap-3 w-full sm:w-auto">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm" style={{background: '#142a60'}}>
-                        {index + 1}
+                  <div key={index} className="space-y-2">
+                    <div
+                      className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex items-center gap-3 w-full sm:w-auto">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm" style={{background: '#142a60'}}>
+                          {index + 1}
+                        </div>
+                        
+                        <input
+                          type="text"
+                          value={player.name}
+                          onChange={(e) => handlePlayerNameChange(index, e.target.value)}
+                          className="flex-1 sm:flex-auto sm:min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 transition-all outline-none text-gray-900"
+                          style={{'--tw-ring-color': '#142a60'} as React.CSSProperties}
+                          placeholder={`Player ${index + 1} name`}
+                          required
+                        />
                       </div>
-                      
-                      <input
-                        type="text"
-                        value={player.name}
-                        onChange={(e) => handlePlayerNameChange(index, e.target.value)}
-                        className="flex-1 sm:flex-auto sm:min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 transition-all outline-none text-gray-900"
-                        style={{'--tw-ring-color': '#142a60'} as React.CSSProperties}
-                        placeholder={`Player ${index + 1} name`}
-                        required
-                      />
-                    </div>
 
-                    <div className="flex items-center gap-2 pl-11 sm:pl-0">
-                      <input
-                        type="checkbox"
-                        id={`captain-${index}`}
-                        checked={player.isCaptain}
-                        onChange={() => handleCaptainChange(index)}
-                        className="w-5 h-5 border-gray-300 rounded focus:ring-2 cursor-pointer"
-                        style={{'--tw-ring-color': '#142a60', accentColor: '#142a60'} as React.CSSProperties}
-                      />
-                      <label
-                        htmlFor={`captain-${index}`}
-                        className="text-sm font-medium text-gray-700 cursor-pointer select-none whitespace-nowrap"
-                      >
-                        Captain
-                      </label>
+                      <div className="flex items-center gap-2 pl-11 sm:pl-0">
+                        <input
+                          type="checkbox"
+                          id={`captain-${index}`}
+                          checked={player.isCaptain}
+                          onChange={() => handleCaptainChange(index)}
+                          className="w-5 h-5 border-gray-300 rounded focus:ring-2 cursor-pointer"
+                          style={{'--tw-ring-color': '#142a60', accentColor: '#142a60'} as React.CSSProperties}
+                        />
+                        <label
+                          htmlFor={`captain-${index}`}
+                          className="text-sm font-medium text-gray-700 cursor-pointer select-none whitespace-nowrap"
+                        >
+                          Captain
+                        </label>
+                      </div>
                     </div>
+                    
+                    {/* Captain Phone Number - Show only for selected captain */}
+                    {player.isCaptain && (
+                      <div className="ml-11 mr-0 sm:ml-11 animate-fadeIn">
+                        <div className="bg-blue-50 border-l-4 rounded-r-lg p-3" style={{borderColor: '#142a60'}}>
+                          <label htmlFor={`captain-phone-${index}`} className="block text-xs font-semibold text-gray-700 mb-2">
+                            📞 Captain Phone Number
+                          </label>
+                          <input
+                            type="tel"
+                            id={`captain-phone-${index}`}
+                            value={captainPhone}
+                            onChange={(e) => setCaptainPhone(e.target.value.replace(/[^0-9]/g, ''))}
+                            maxLength={10}
+                            className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg focus:ring-2 transition-all outline-none text-gray-900 text-sm"
+                            style={{'--tw-ring-color': '#142a60'} as React.CSSProperties}
+                            placeholder="Enter 10-digit phone number"
+                            required
+                          />
+                          <p className="mt-1 text-xs text-gray-500">This number will be used to contact the team captain</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

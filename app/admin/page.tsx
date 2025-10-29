@@ -11,6 +11,7 @@ interface Player {
 interface Team {
   _id: string;
   teamName: string;
+  captainPhone: string;
   players: Player[];
   paymentScreenshot: string;
   verified: boolean;
@@ -32,18 +33,14 @@ export default function AdminDashboard() {
 
   const checkAuth = async () => {
     try {
-      console.log('Checking authentication...');
       const response = await fetch('/api/auth/verify');
       const data = await response.json();
-      console.log('Auth check result:', data);
 
       if (!data.authenticated) {
-        console.log('Not authenticated, redirecting to login...');
         window.location.href = '/admin/login';
         return;
       }
 
-      console.log('Authenticated, loading admin data...');
       setAdminUsername(data.admin.username);
       fetchTeams();
     } catch (error) {
@@ -268,6 +265,16 @@ export default function AdminDashboard() {
                       <p className="text-gray-500 text-sm mt-1">
                         Registered: {new Date(team.createdAt).toLocaleString()}
                       </p>
+                      {team.captainPhone && (
+                        <p className="text-gray-700 text-sm mt-1 font-medium">
+                          📞 Captain Phone: <a href={`tel:${team.captainPhone}`} className="font-semibold hover:underline" style={{color: '#142a60'}}>{team.captainPhone}</a>
+                        </p>
+                      )}
+                      {!team.captainPhone && (
+                        <p className="text-red-500 text-sm mt-1 font-medium">
+                          ⚠️ No captain phone number recorded
+                        </p>
+                      )}
                     </div>
 
                     <div className="flex gap-2">
@@ -336,13 +343,18 @@ export default function AdminDashboard() {
                                 src={team.paymentScreenshot}
                                 alt="Payment Screenshot"
                                 className="max-h-96 mx-auto rounded-lg shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                                onError={(e) => {
+                                  console.error('Image load error for team:', team._id);
+                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.nextElementSibling!.textContent = 'Error loading image';
+                                }}
                               />
                               <p className="text-center mt-3 text-sm text-blue-600 hover:text-blue-800">
                                 Click to view full size →
                               </p>
                             </a>
                           ) : (
-                            <p className="text-gray-500 text-center py-8">No payment screenshot uploaded</p>
+                            <p className="text-red-500 text-center py-8 font-medium">⚠️ No payment screenshot uploaded</p>
                           )}
                         </div>
                       </div>

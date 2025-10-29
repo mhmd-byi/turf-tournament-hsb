@@ -7,6 +7,7 @@ export interface IPlayer {
 
 export interface ITeam extends Document {
   teamName: string;
+  captainPhone: string;
   players: IPlayer[];
   paymentScreenshot: string;
   verified: boolean;
@@ -25,6 +26,16 @@ const TeamSchema = new Schema(
       type: String,
       required: [true, 'Please provide a team name'],
       trim: true,
+    },
+    captainPhone: {
+      type: String,
+      required: [true, 'Please provide captain phone number'],
+      validate: {
+        validator: function (v: string) {
+          return /^[0-9]{10}$/.test(v);
+        },
+        message: 'Phone number must be 10 digits',
+      },
     },
     players: {
       type: [PlayerSchema],
