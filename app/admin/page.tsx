@@ -138,11 +138,18 @@ export default function AdminDashboard() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-6">
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6">
+          <div className="px-8 py-6" style={{background: '#142a60'}}>
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
-                <p className="text-indigo-100 mt-2">Manage team registrations</p>
+              <div className="flex items-center gap-4">
+                <img 
+                  src="/logo-hsb-high-res-white.png" 
+                  alt="HSB Logo" 
+                  className="h-12 w-auto"
+                />
+                <div>
+                  <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
+                  <p className="text-blue-100 mt-2">Manage team registrations</p>
+                </div>
               </div>
               <div className="flex items-center gap-4">
                 <a
@@ -156,7 +163,7 @@ export default function AdminDashboard() {
                 </a>
                 <div className="text-right">
                   <p className="text-white text-sm font-medium">Welcome,</p>
-                  <p className="text-indigo-100 font-semibold">{adminUsername}</p>
+                  <p className="text-blue-100 font-semibold">{adminUsername}</p>
                 </div>
                 <button
                   onClick={handleLogout}
@@ -173,11 +180,11 @@ export default function AdminDashboard() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-8">
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
-              <div className="text-blue-600 text-sm font-semibold uppercase tracking-wide">
+            <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border" style={{borderColor: '#142a60'}}>
+              <div className="text-blue-600 text-sm font-semibold uppercase tracking-wide" style={{color: '#142a60'}}>
                 Total Teams
               </div>
-              <div className="text-4xl font-bold text-blue-900 mt-2">{stats.total}</div>
+              <div className="text-4xl font-bold text-blue-900 mt-2" style={{color: '#142a60'}}>{stats.total}</div>
             </div>
             <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border border-green-200">
               <div className="text-green-600 text-sm font-semibold uppercase tracking-wide">
@@ -201,9 +208,10 @@ export default function AdminDashboard() {
               onClick={() => setFilter('all')}
               className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all ${
                 filter === 'all'
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md'
+                  ? 'text-white shadow-md'
                   : 'text-gray-600 hover:bg-gray-100'
               }`}
+              style={filter === 'all' ? {background: '#142a60'} : {}}
             >
               All Teams ({stats.total})
             </button>
@@ -298,7 +306,7 @@ export default function AdminDashboard() {
                             key={index}
                             className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
                           >
-                            <div className="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                            <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm" style={{background: '#142a60'}}>
                               {index + 1}
                             </div>
                             <div className="flex-1">

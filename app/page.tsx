@@ -132,7 +132,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {isLoading ? (
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden p-12 text-center">
@@ -141,18 +141,25 @@ export default function Home() {
           </div>
         ) : totalTeams >= MAX_TEAMS ? (
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <div className="bg-gradient-to-r from-red-600 to-orange-600 px-4 sm:px-6 md:px-8 py-4 sm:py-6">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white text-center">
-                Registration Closed
-              </h1>
+            <div className="bg-gradient-to-r from-red-600 to-red-700 px-4 sm:px-6 md:px-8 py-4 sm:py-6" style={{background: 'linear-gradient(to right, #142a60, #1a3a7a)'}}>
+              <div className="flex flex-col items-center">
+                <img 
+                  src="/logo-hsb-high-res-white.png" 
+                  alt="HSB Logo" 
+                  className="h-16 sm:h-20 w-auto mb-3"
+                />
+                <h1 className="text-2xl sm:text-3xl font-bold text-white text-center">
+                  Registration Closed
+                </h1>
+              </div>
             </div>
             <div className="px-4 sm:px-6 md:px-8 py-12 text-center">
-              <svg className="mx-auto h-24 w-24 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="mx-auto h-24 w-24" style={{color: '#142a60'}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               <h2 className="mt-6 text-2xl font-bold text-gray-900">Registration Limit Reached</h2>
               <p className="mt-4 text-lg text-gray-600">
-                We have reached the maximum limit of <span className="font-bold text-orange-600">{MAX_TEAMS} teams</span>.
+                We have reached the maximum limit of <span className="font-bold" style={{color: '#142a60'}}>{MAX_TEAMS} teams</span>.
               </p>
               <p className="mt-2 text-gray-600">
                 Registration is now closed. Thank you for your interest!
@@ -160,7 +167,7 @@ export default function Home() {
               <div className="mt-8 bg-blue-50 rounded-lg p-6">
                 <p className="text-sm text-gray-700">
                   <span className="font-semibold">Total Teams Registered:</span>{' '}
-                  <span className="text-2xl font-bold text-blue-600">{totalTeams}/{MAX_TEAMS}</span>
+                  <span className="text-2xl font-bold" style={{color: '#142a60'}}>{totalTeams}/{MAX_TEAMS}</span>
                 </p>
               </div>
             </div>
@@ -168,13 +175,20 @@ export default function Home() {
         ) : (
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 sm:px-6 md:px-8 py-4 sm:py-6">
-            <h1 className="text-2xl sm:text-3xl font-bold text-white text-center">
-              Team Registration
-            </h1>
-            <p className="text-blue-100 text-center mt-2 text-sm sm:text-base">
-              Register your 8-player team for the tournament
-            </p>
+          <div className="px-4 sm:px-6 md:px-8 py-4 sm:py-6" style={{background: '#142a60'}}>
+            <div className="flex flex-col items-center">
+              <img 
+                src="/logo-hsb-high-res-white.png" 
+                alt="HSB Logo" 
+                className="h-16 sm:h-20 w-auto mb-3"
+              />
+              <h1 className="text-2xl sm:text-3xl font-bold text-white text-center">
+                Team Registration
+              </h1>
+              <p className="text-blue-100 text-center mt-2 text-sm sm:text-base">
+                Register your 8-player team for the tournament
+              </p>
+            </div>
           </div>
 
           {/* Form */}
@@ -189,7 +203,8 @@ export default function Home() {
                 id="teamName"
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-gray-900"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 transition-all outline-none text-gray-900"
+                style={{'--tw-ring-color': '#142a60'} as React.CSSProperties}
                 placeholder="Enter your team name"
                 required
               />
@@ -207,7 +222,7 @@ export default function Home() {
                     className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                   >
                     <div className="flex items-center gap-3 w-full sm:w-auto">
-                      <div className="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-sm" style={{background: '#142a60'}}>
                         {index + 1}
                       </div>
                       
@@ -215,7 +230,8 @@ export default function Home() {
                         type="text"
                         value={player.name}
                         onChange={(e) => handlePlayerNameChange(index, e.target.value)}
-                        className="flex-1 sm:flex-auto sm:min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-gray-900"
+                        className="flex-1 sm:flex-auto sm:min-w-[200px] px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 transition-all outline-none text-gray-900"
+                        style={{'--tw-ring-color': '#142a60'} as React.CSSProperties}
                         placeholder={`Player ${index + 1} name`}
                         required
                       />
@@ -227,7 +243,8 @@ export default function Home() {
                         id={`captain-${index}`}
                         checked={player.isCaptain}
                         onChange={() => handleCaptainChange(index)}
-                        className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                        className="w-5 h-5 border-gray-300 rounded focus:ring-2 cursor-pointer"
+                        style={{'--tw-ring-color': '#142a60', accentColor: '#142a60'} as React.CSSProperties}
                       />
                       <label
                         htmlFor={`captain-${index}`}
@@ -248,7 +265,7 @@ export default function Home() {
               </h2>
               
               {/* QR Code */}
-              <div className="bg-gradient-to-br from-green-50 to-blue-50 rounded-xl p-4 sm:p-6 mb-6">
+              <div className="rounded-xl p-4 sm:p-6 mb-6" style={{background: 'linear-gradient(to bottom right, #e6eef9, #f0f4ff)'}}>
                 <div className="flex flex-col md:flex-row items-center gap-4 sm:gap-6">
                   <div className="flex-shrink-0">
                     <div className="bg-white p-3 sm:p-4 rounded-xl shadow-lg">
@@ -266,7 +283,7 @@ export default function Home() {
                     </p>
                     <div className="bg-white rounded-lg p-3 sm:p-4 inline-block">
                       <p className="text-xs sm:text-sm font-semibold text-gray-700">Registration Fee:</p>
-                      <p className="text-2xl sm:text-3xl font-bold text-green-600">₹4,400</p>
+                      <p className="text-2xl sm:text-3xl font-bold" style={{color: '#142a60'}}>₹4,400</p>
                       <p className="text-xs text-gray-500 mt-1">Per Team</p>
                     </div>
                   </div>
@@ -278,7 +295,9 @@ export default function Home() {
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Upload Payment Screenshot <span className="text-red-500">*</span>
                 </label>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 hover:border-blue-500 transition-colors">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 transition-colors" style={{'--tw-border-opacity': '1'} as React.CSSProperties}
+                  onMouseEnter={(e) => e.currentTarget.style.borderColor = '#142a60'}
+                  onMouseLeave={(e) => e.currentTarget.style.borderColor = '#d1d5db'}>
                   {!paymentScreenshot ? (
                     <div className="text-center">
                       <svg className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 48 48">
@@ -319,7 +338,7 @@ export default function Home() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                       </button>
-                      <p className="text-center mt-3 text-sm text-green-600 font-medium">✓ Screenshot uploaded</p>
+                      <p className="text-center mt-3 text-sm font-medium" style={{color: '#142a60'}}>✓ Screenshot uploaded</p>
                     </div>
                   )}
                 </div>
@@ -334,7 +353,10 @@ export default function Home() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-[1.02] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full text-white font-semibold py-3 px-6 rounded-lg transform hover:scale-[1.02] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                style={{background: '#142a60'}}
+                onMouseEnter={(e) => !isSubmitting && (e.currentTarget.style.background = '#1a3a7a')}
+                onMouseLeave={(e) => !isSubmitting && (e.currentTarget.style.background = '#142a60')}
               >
                 {isSubmitting ? 'Registering...' : 'Register Team'}
               </button>
@@ -350,7 +372,7 @@ export default function Home() {
             <p className="mt-1">Select one player as the team captain</p>
             <div className="mt-4 bg-white rounded-lg p-4 inline-block shadow-md">
               <p className="text-xs font-semibold text-gray-700">Teams Registered:</p>
-              <p className="text-2xl font-bold text-blue-600">{totalTeams}/{MAX_TEAMS}</p>
+              <p className="text-2xl font-bold" style={{color: '#142a60'}}>{totalTeams}/{MAX_TEAMS}</p>
             </div>
           </div>
         )}

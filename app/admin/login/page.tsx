@@ -70,7 +70,7 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50 flex items-center justify-center px-4">
       {isCheckingAuth ? (
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
@@ -80,16 +80,16 @@ export default function AdminLogin() {
         <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-8">
+          <div className="px-8 py-8" style={{background: '#142a60'}}>
             <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
-                <svg className="w-10 h-10 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
+              <img 
+                src="/logo-hsb-high-res-white.png" 
+                alt="HSB Logo" 
+                className="h-20 w-auto"
+              />
             </div>
             <h1 className="text-3xl font-bold text-white text-center">Admin Login</h1>
-            <p className="text-indigo-100 text-center mt-2">Tournament Management System</p>
+            <p className="text-blue-100 text-center mt-2">Tournament Management System</p>
           </div>
 
           {/* Form */}
@@ -109,7 +109,8 @@ export default function AdminLogin() {
                 id="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all outline-none text-gray-900"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 transition-all outline-none text-gray-900"
+                style={{'--tw-ring-color': '#142a60'} as React.CSSProperties}
                 placeholder="Enter your username"
                 required
                 autoFocus
@@ -125,7 +126,8 @@ export default function AdminLogin() {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all outline-none text-gray-900"
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 transition-all outline-none text-gray-900"
+                style={{'--tw-ring-color': '#142a60'} as React.CSSProperties}
                 placeholder="Enter your password"
                 required
               />
@@ -134,7 +136,10 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-indigo-700 hover:to-purple-700 transform hover:scale-[1.02] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full text-white font-semibold py-3 px-6 rounded-lg transform hover:scale-[1.02] transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              style={{background: '#142a60'}}
+              onMouseEnter={(e) => !isLoading && (e.currentTarget.style.background = '#1a3a7a')}
+              onMouseLeave={(e) => !isLoading && (e.currentTarget.style.background = '#142a60')}
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">
