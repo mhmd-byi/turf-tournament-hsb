@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Player {
   name: string;
@@ -14,6 +14,27 @@ export default function Home() {
   );
   const [paymentScreenshot, setPaymentScreenshot] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [totalTeams, setTotalTeams] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const MAX_TEAMS = 6;
+
+  useEffect(() => {
+    checkRegistrationStatus();
+  }, []);
+
+  const checkRegistrationStatus = async () => {
+    try {
+      const response = await fetch('/api/teams');
+      const data = await response.json();
+      if (data.success) {
+        setTotalTeams(data.count);
+      }
+    } catch (error) {
+      console.error('Error checking registration status:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handlePlayerNameChange = (index: number, name: string) => {
     const updatedPlayers = [...players];
@@ -94,6 +115,8 @@ export default function Home() {
 
       if (data.success) {
         alert('Team registered successfully! ✅');
+        // Refresh team count
+        await checkRegistrationStatus();
         // Reset form
         setTeamName('');
         setPlayers(Array(8).fill(null).map(() => ({ name: '', isCaptain: false })));
@@ -111,6 +134,38 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-6 sm:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        {isLoading ? (
+          <div className="bg-white rounded-2xl shadow-xl overflow-hidden p-12 text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading...</p>
+          </div>
+        ) : totalTeams >= MAX_TEAMS ? (
+          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-r from-red-600 to-orange-600 px-4 sm:px-6 md:px-8 py-4 sm:py-6">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white text-center">
+                Registration Closed
+              </h1>
+            </div>
+            <div className="px-4 sm:px-6 md:px-8 py-12 text-center">
+              <svg className="mx-auto h-24 w-24 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <h2 className="mt-6 text-2xl font-bold text-gray-900">Registration Limit Reached</h2>
+              <p className="mt-4 text-lg text-gray-600">
+                We have reached the maximum limit of <span className="font-bold text-orange-600">{MAX_TEAMS} teams</span>.
+              </p>
+              <p className="mt-2 text-gray-600">
+                Registration is now closed. Thank you for your interest!
+              </p>
+              <div className="mt-8 bg-blue-50 rounded-lg p-6">
+                <p className="text-sm text-gray-700">
+                  <span className="font-semibold">Total Teams Registered:</span>{' '}
+                  <span className="text-2xl font-bold text-blue-600">{totalTeams}/{MAX_TEAMS}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : (
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-4 sm:px-6 md:px-8 py-4 sm:py-6">
@@ -286,12 +341,19 @@ export default function Home() {
             </div>
           </form>
         </div>
+        )}
 
         {/* Footer Info */}
-        <div className="mt-8 text-center text-gray-600 text-sm">
-          <p>Make sure all player names are entered correctly</p>
-          <p className="mt-1">Select one player as the team captain</p>
-        </div>
+        {!isLoading && totalTeams < MAX_TEAMS && (
+          <div className="mt-8 text-center text-gray-600 text-sm">
+            <p>Make sure all player names are entered correctly</p>
+            <p className="mt-1">Select one player as the team captain</p>
+            <div className="mt-4 bg-white rounded-lg p-4 inline-block shadow-md">
+              <p className="text-xs font-semibold text-gray-700">Teams Registered:</p>
+              <p className="text-2xl font-bold text-blue-600">{totalTeams}/{MAX_TEAMS}</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
