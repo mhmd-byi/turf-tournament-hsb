@@ -178,12 +178,6 @@ export default function Home() {
               <p className="mt-2 text-gray-600">
                 Registration is now closed. Thank you for your interest!
               </p>
-              <div className="mt-8 bg-blue-50 rounded-lg p-6">
-                <p className="text-sm text-gray-700">
-                  <span className="font-semibold">Total Teams Registered:</span>{' '}
-                  <span className="text-2xl font-bold" style={{color: '#142a60'}}>{totalTeams}/{MAX_TEAMS}</span>
-                </p>
-              </div>
             </div>
           </div>
         ) : (
