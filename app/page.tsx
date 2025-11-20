@@ -178,6 +178,12 @@ export default function Home() {
               <p className="mt-2 text-gray-600">
                 Registration is now closed. Thank you for your interest!
               </p>
+              <div className="mt-8 bg-blue-50 rounded-lg p-6">
+                <p className="text-sm text-gray-700">
+                  <span className="font-semibold">Total Teams Registered:</span>{' '}
+                  <span className="text-2xl font-bold" style={{color: '#142a60'}}>{totalTeams}/{MAX_TEAMS}</span>
+                </p>
+              </div>
             </div>
           </div>
         ) : (
@@ -402,10 +408,6 @@ export default function Home() {
           <div className="mt-8 text-center text-gray-600 text-sm">
             <p>Make sure all player names are entered correctly</p>
             <p className="mt-1">Select one player as the team captain</p>
-            <div className="mt-4 bg-white rounded-lg p-4 inline-block shadow-md">
-              <p className="text-xs font-semibold text-gray-700">Teams Registered:</p>
-              <p className="text-2xl font-bold" style={{color: '#142a60'}}>{totalTeams}/{MAX_TEAMS}</p>
-            </div>
           </div>
         )}
       </div>
